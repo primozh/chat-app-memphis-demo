@@ -1,6 +1,5 @@
 import { Body, Controller, Inject, OnModuleInit, Post, Res } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { Response } from 'express';
 import { firstValueFrom, Observable } from 'rxjs';
 import { ChatMessage } from 'src/chat-message/chat-message.interface';
 
@@ -32,9 +31,9 @@ export class ClientController implements OnModuleInit {
     @Post('')
     async sendMessage(
         @Body() chatMessage: ChatMessage,
-        @Res() res: Response
+        @Res() res
     ): Promise<void> {
         await firstValueFrom(this.sendMessageService.send(chatMessage));
-        res.json({ status: true, message: 'Acknowledged'});
+        res.send({ status: true, message: 'Acknowledged'});
     }
 }
